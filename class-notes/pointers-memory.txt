@@ -1,0 +1,66 @@
+Address Operator
+
+	- a variavle can be referenced using the address operator '&'
+		* scanf("%f", &x)
+	- this statement specifies that the value read is to be stored at the adress of x
+
+Pointer
+	
+	- a pointer is a variavle that holds the address of a memory location
+	- p points to q
+		* variable p holds the address of variable q
+		* variable q is at location x in memory
+		* p would have the value x (q's address)
+	- there is no limit of pointers to a single location in memory
+
+	Declaring a pointer variable
+
+		-  pointer variables are declared using an asterisk (*):
+			* int *ip; // ip is a pointer to an integer
+			* char *cp; // cp is a pointer to a char
+			* ex. int *ip = 9; // points location in memory, because type int, the next for spots in memory are reserved
+		- when a pointer is defined, the type of the variable to which it will point can only be one
+			* int *ip;
+			* int *dp;
+
+				- variable ip is declared to point to an int
+				- variable dp is declared to point to a double
+				- neither variable has been initialized
+				- declaring a pointer creates a variable capable of holding an address
+
+		- the star operator (*) does not distribute
+			* int *p,q; // star only applies to p, not to q which is just initialized as type int
+			* int *p,*q; // correct way to initialize on the same line
+
+Operators & and *
+
+	- the operator & in front of an ordinary variable produces the address of that variable
+	- the operator * in front of a pointer produces the value pointed by the pointer
+		* int i = 3
+		* &i > address where i is stored
+		* int *ip = &i > *ip = 3
+
+Assigning values to a pointer
+
+	- the assignment operator (=) is defined for pointers
+		* the right operand can be any expression that evaluates to the same type as the left
+		* ex. pointer = address || pointed value = value
+
+			int i = 6, j;
+			int *ip;
+
+			ip = &i; // ip set to memory address of i
+			j = *ip; // j set to value that ip is pointing to
+			*ip = 13 // changes the value where ip is located to 13
+
+	*Practice*
+
+		- give a memory snapshot after each set of assignment statements
+
+			int a = 1, b = 2, *ptr; // creates 3 variables at 3 different locations in memory, init a to 1 and b to 2
+			ptr = &b; // ptr is set to the address of b
+
+			int a = 1, b = 2, *ptr = &b;
+			a = *ptr; // a is set to the value that b holds
+
+Null pointer

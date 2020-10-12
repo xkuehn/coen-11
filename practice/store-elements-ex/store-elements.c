@@ -7,7 +7,7 @@ int main(void){
     
 	for(int i = 0; i < sizeof(arr)/sizeof(input); i++){
 		arr[i] = input;
-		printf("%d ", arr[i]);
+		printf("%d\t", arr[i]);
 		input++;
 	}
 }
