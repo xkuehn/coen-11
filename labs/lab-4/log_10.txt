@@ -1,0 +1,93 @@
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4409
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4163
+    Requested queue size: 10
+    Requested retest chance: 0.20
+3900
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3665
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3415
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4413
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4189
+    Requested queue size: 10
+    Requested retest chance: 0.20
+3926
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3690
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3425
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4545
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4302
+    Requested queue size: 10
+    Requested retest chance: 0.20
+4046
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3785
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3525
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4475
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4214
+    Requested queue size: 10
+    Requested retest chance: 0.20
+3981
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3734
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3510
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4475
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4214
+    Requested queue size: 10
+    Requested retest chance: 0.20
+3981
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3734
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3510
+    Requested queue size: 10
+    Requested retest chance: 0.05
+4837
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4568
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4310
+    Requested queue size: 10
+    Requested retest chance: 0.20
+4083
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3822
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3603

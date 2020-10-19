@@ -51,7 +51,7 @@ Assigning values to a pointer
 
 			ip = &i; // ip set to memory address of i
 			j = *ip; // j set to value that ip is pointing to
-			*ip = 13 // changes the value where ip is located to 13
+			*ip = 13 // changes the value that ip is pointing to 13
 
 	*Practice*
 
@@ -63,4 +63,284 @@ Assigning values to a pointer
 			int a = 1, b = 2, *ptr = &b;
 			a = *ptr; // a is set to the value that b holds
 
-Null pointer
+NULL pointer
+
+	- NULL is a void pointer
+		* a symbolic constant defined in <stdio.h>
+		* a pointer can be assigned or compared to the void pointer NULL
+		* a pointer variable whose value is NULL is not pointing to anything that can be accessed
+
+			int *ip = 0;
+			char *s = 0;
+			double *dp = NULL; // all three statements set pointer to point to NULL
+
+Pointer Assignments
+
+	int x = -5, y = 8, *ptr1, *ptr2;
+
+	ptr1 = &x;
+	ptr2 = ptr1;
+
+Pointer Arithmetic
+	
+	- the following arithmetic operations are supported
+		* +, -, ++, --, +=, -=
+		* these operations determine pointer movements
+		* only integers may be used in these operations
+
+			int i = 5;
+			int *ip = &i; [ip = 100]
+
+			ip++; [ip = 104] // moves to next int (useful for arrays)
+
+			int **jp = &ip;	[jp = 32]
+			jp++;	[jp = 40] // moving to next pointer in memory (pointer takes up 8 bytes)
+
+	- the arithmetic is performed relative to the variable type being pointed to 
+	- ex. p++;
+		* when applied to pointers ++ means
+
+Comapring Pointers
+
+	- you may compare pointers using relational operators
+	- common comparisons are:
+		* check for null pointer (p == NULL)
+		*check if two pointers are pointing to the same object
+			- (p == q) // addresses
+			- (*p == *q) // values
+
+Pointers and Arrays
+
+	- the name of an array is 
+
+	- array names and pointers may be often used interchangeably
+
+		int num[4] = {1,2,3,4}, *p;
+		p = num; // the same as p = &num[0];
+		printf("%i", *p); // dereference of p is 1
+		p++;
+		printf("%i", *p); // dereference of p is now 2
+
+	- you can also index a pointer using array notation
+
+		char string[] = "This is a string";
+		char *str;
+		int i;
+		str = string;
+		
+		>	for (i = 0; str[i] != '\0'; i++) { // look for end of the string
+				printf("%c", str[i]);
+			}
+
+		>	for (i = 0; *(str + i) != '\0'; i++){ // uses the dereference of str plus i to get the value in the array
+				printf("%c", *(str + i));
+			}
+
+	- can you traverse a character array using a short pointer? (short type is 2 bytes)
+		* yes, using casting, but makes things more difficult and complicated, without casting would return 2 chars
+
+Pointers and functions
+
+	- an address passed as an argument to a function is received as a pointer
+		* changing the value pointed affects the original value
+
+		int x[] = {1,2,3};
+
+		int sum(int[3]){
+			int s = 0;
+			for (int i = 0; i < 3; i++){
+				s += x[i];
+			}
+			return s;
+		}
+
+		OR
+
+		int sum(int *x){
+			int s = 0;
+			for (int i = 0; i < 3; i++){
+				s += x[i];
+			}
+			return s;
+		}
+
+	SWITCH EXAMPLE
+
+	void switch2 (int *a, int *b){
+		int temp;
+
+		//switch values pointed to by a and b
+		temp = *a;
+		*a = *b;
+		b* = temp;
+
+		return;
+	}
+
+	MORE EXAMPLES
+
+	a() {							int b (int m, int *n, int *q){
+		int x[3] = {0,1,2};				m++; // 9
+		int m = 8;						*n += 100; // 100 is added to the value that n is pointed to
+		int n = 10;						*q = 10;
+		int o = 0;						return(m); // increments copy of m and returns value
+		int *p = x;					}
+
+		o = b(m, &n, p);
+	}
+
+	m = 8   n = 110   o = 0   x[] = {10,1,2}
+
+Pointers and 2D arrays
+
+	- a 2d array is stored in sequential order
+
+		int s[2][3]
+
+Common pointer problems
+
+	- using un-initialized pointers
+
+		int *ip;
+		*ip = 100;
+
+		* pointer ip has not been intialized
+		* value of 100 will be set to a 
+
+Precendence of operations (top to bottom)
+	
+	- when operators are on the same line they get excecuted from right to left
+	- () []
+	- ++ -- + - ! (type) & * // right to left
+	- * / %
+	- + -
+	- < <= > >=
+	- == !=
+	- &&
+	- ||
+	- ?: // ternary operator; right to left
+	- = += -= *= /= %= // right to left
+	- ,
+
+		int x[10] = {0,5,10,15,20,25,30,35,40,45};
+		int y = 5;
+		int *p = x;	// p points to beginning of array (x[0])
+
+		y = *p++;	// star op. to left and incr. op. to right
+					// increase p to point to x[1] after dec., then set y to *p (0)
+		printf("%d, %d\n", y, *p);	// output: 0, 5
+
+		y = *(p++);	// parentheses take precedence, p++ first (after dec.), then deref. p
+					// y is set to *p (5)
+		printf("%d, %d\n", y, *p);	// output: 5, 10
+
+		y = (*p)++; // () takes precedence, *p = 10; then incr. *p (11) 
+		printf("%d, %d\n", y, *p); 	// output: 10, 11
+
+		--------
+
+		y = ++*p;	// deref. p, then increment; *p = 1, y = *p = 1
+		printf("%d, %d\n", y, *p);	// output: 1, 1
+
+		y = *(++p);	// incr. p (x[1]) then deref. p (*p = 5); y = *p = 5
+		printf("%d, %d\n", y, *p);	// output: 5, 5
+
+		y = ++(*p); // deref. p then incr.; *p = 6; y = *p = 6
+		printf("%d, %d\n", y, *p);
+
+Pointers to pointers
+
+	- Example
+
+		int **p;
+		int *q;
+		int x = 5;
+
+		q = &x;
+		p = &q;
+		printf("%d, %d, %d\n", x, *q, **p);	// output: 5, 5, 5
+
+Dynamic memory allocation
+
+	- used to support dynamic data structures
+	- give ability to allocate memory at runtime
+	- need to free memory when no longer need it
+	- allocate using malloc and calloc (sets all bits to 0 for mem that was allo.)
+	- the size of memory requested by malloc or calloc can be changed using realloc
+
+Malloc and calloc
+	
+	- both functions return a pointer to the newly allocated memory
+	- the pointer returned by these functions is declared to be a void pointer
+		* use a case operator to coerce it to the proper pointer type
+	- if memory cannot be allocated set to NULL
+
+Allocating arrays dynamically
+
+	int npts = 500;
+	double *x;
+	int *p;
+
+	// allocate memory for 500 doubles
+	x = (double *)malloc(npts * sizeof(double));
+
+	// allocate memory for 500 integers, setting all to 0 
+	p = (int *)calloc(npts, sizeof(int));
+
+Allocating 2D arrays dynamically
+
+	int rows = 10;
+	int cols = 20;
+	double *x;
+
+	// allocate a matrix for 200 doubles; makes one long 1D array
+	x = (double *)malloc(rows * cols * sizeof(double));
+
+	- to access and element [a][b]
+		* x + a * cols + b
+		* a pointer ref. to s[0][1] would be *(x + 1)
+
+	// allocate a matrix of 10 rows and 20 cols seperately
+	double *[*]x;
+
+	x = (double **)malloc(rows * sizeof(double *));
+	for (i = 0; i < rows; i++){
+		x[i] = (double *)malloc(cols * sizeof(double));
+	}
+
+	- to access an element [a][b]
+		* x[a][b]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

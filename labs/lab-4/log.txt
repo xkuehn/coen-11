@@ -1,0 +1,55 @@
+Maxsize, Retest, # Turned Away
+    Requested queue size: 10
+    Requested retest chance: 0.05
+4836
+    Requested queue size: 10
+    Requested retest chance: 0.10
+4611
+    Requested queue size: 10
+    Requested retest chance: 0.15
+4368
+    Requested queue size: 10
+    Requested retest chance: 0.20
+4137
+    Requested queue size: 10
+    Requested retest chance: 0.25
+3913
+    Requested queue size: 10
+    Requested retest chance: 0.30
+3663
+    Requested queue size: 100
+    Requested retest chance: 0.05
+4668
+    Requested queue size: 100
+    Requested retest chance: 0.10
+4425
+    Requested queue size: 100
+    Requested retest chance: 0.15
+4175
+    Requested queue size: 100
+    Requested retest chance: 0.20
+3920
+    Requested queue size: 100
+    Requested retest chance: 0.25
+3675
+    Requested queue size: 100
+    Requested retest chance: 0.30
+3437
+    Requested queue size: 1000
+    Requested retest chance: 0.05
+3768
+    Requested queue size: 1000
+    Requested retest chance: 0.10
+3525
+    Requested queue size: 1000
+    Requested retest chance: 0.15
+3275
+    Requested queue size: 1000
+    Requested retest chance: 0.20
+3020
+    Requested queue size: 1000
+    Requested retest chance: 0.25
+2775
+    Requested queue size: 1000
+    Requested retest chance: 0.30
+2537
