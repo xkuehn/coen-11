@@ -1,0 +1,69 @@
+//THINK THROUGH AND DEFINE FUNCTION PROTOTYPES (unsure about what operations of the matrix need its own function)
+
+	ADD FUNCTION
+		- add a value to a matrix accompanied by the column ID; adds value to current matrix row and updates the matrix number of columns if necessary; adding value for column that already exists should update value; grow matrix storage as needed through recursixe doubling
+
+		void add_element(matrix, col);
+
+	NEXT FUNCTION
+		- changes the current row in a given matrix; returns the new current row index
+
+		int next(matrix);
+
+	PRINT FUNCTION
+		- prints the entire content of the matrix, inlcuding number of rows, column, non-zero values and the values for each row
+
+		void print_matrix(matrix);
+
+	ANALYZE FUNCTION
+		- print the matrix non-zero density, average non-zeros per row, average non zeros per column, and min, max, mean, standard deviation for all non-zero values
+
+		void analyze_matrix(matrix);
+
+	ADD_MATRIX FUNCTION
+		void add_matrix(matrix, int);
+
+	SUB_MATRIX FUNCTION
+		void sub_matrix(matrix, int);
+
+	MUL_MATRIX FUNCTION
+		void mul_matrix(matrix, int);
+
+	DIV_MATRIX FUNCTION
+		void div_matrix(matrix, int);
+
+	TRANSPOSE FUNCTION
+		void transpose(matrix);
+
+	EMPTY FUNCTION
+		void empty(matrix);
+
+	DELETE FUNCTION (unsure if meant to delete value or matrix)
+		void delete(matrix);
+
+	ADD_MATRICES FUNCTION
+		void add_matrices(matrix1, matrix2);
+
+	SUB_MATRICES FUNCTION
+		void sub_matrices(matrix1, matrix2);
+
+	MUL_MATRICES FUNCTION
+		void mul_matrices(matrix1, matrix2);
+
+	//TEST FUNCTIONS (its unclear to me what needs tests and what doesn't; does everything need to be tested in its own function or can it be tested using an if statement at an appropriate location; also unsure about all the functionalities of a matrix)
+
+		1. check if value at current column ID is present, takes maxtrix as argument
+
+			int check_val(matrix);
+		
+		2. check the current row that values are being added to to avoid out of bounds error, takes matrix as argument
+
+			int check_row(matrix);
+
+		3. check the number of values in the matrix to avoid unwanted overwriting, takes matrix as argument
+
+			int check_num_vals(matrix);
+
+		4.  check the sizes of two matrices being multiplied to endure they have the appropriate dimensions
+
+			int check_matrix_size(matrix1, matrix2);

@@ -74,3 +74,26 @@
 // 	int sum = *firstp + *secondp;
 // 	printf("The sum of the first and second value is: %d\n", sum);
 // }
+
+void fun(char * p);
+
+int main ( void)
+{
+    char * string[5] = "xyz";
+    fun (string);
+    return;
+}
+
+void fun (char *p)
+{
+    if (*p == '\0')
+        return;
+    else
+    {
+        printf ("%c", *p);
+        printf ("%c", *p);
+        fun (p + 1);
+        printf ("%c", *p);
+     }
+     return;
+}
