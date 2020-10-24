@@ -14,13 +14,13 @@ char * find_substr_ptr (const char * str, const char * substr){
 	int i = 0, j;
 	while(str != NULL){
 		j = 0;
-		while((substr + j) != NULL){
-			if((substr + j) != (str + i + j)){
+		while(*(substr + j) != NULL){
+			if(*(substr + j) != (str + i + j)){
 				break;
 			}
 			j++;
 		}
-		if(substr + j == NULL){
+		if(*(substr + j) == NULL){
 			return (char*)substr;
 		}
 		i++;

@@ -1,0 +1,130 @@
+Union Basics
+
+	- a union is a data structure that overlays compnents in memory
+		* allows one chunk of memory to be interpreted in multiple ways
+	- the union is used for:
+		* saving space -> in situations in which one needs a data object that can be interpreted in a variety of ways
+
+Union Definition
+
+	union union_t {
+		variable declaration;
+		variable declaration;
+		.
+		.
+	};
+
+	OR
+
+	typedef union {
+		variable declaration;
+		variable declaration;
+		.
+		.
+	} UNION_T;
+
+	- both are type definitions and allocates no memory
+
+	// EXAMPLE
+	typedef union {
+		int age;
+		char artist[20];
+	} ART_INFO;
+
+Union Variables
+
+	ART_INFO info;
+
+	- info is a variable; info does no have both components
+		* it will store 20 bytes of memory, or the maximum number of bytes of any of its members
+	- the member variables are accessed using the dot (.) notation
+
+	info.age = (2000);
+	strcpy(info.artist, "Michelangelo");
+
+Assignment Operator
+
+	- assignment operator is defined for union variables of the same type
+		* compiler looks at tag, no composition
+
+	ART_INFO art1;
+	ART_INFO art2;
+
+	art1.artist = "David";
+	art2 = art1;
+
+Scope of a Union
+
+	- member variables are local to the union
+	- member names are not known outside the union
+
+Arrays of Unions
+
+	- arrays of unions may be declared in the same way as other C data types
+		* ART_INFO info_array[20]; (400 bytes of memory)
+	- info_array[0] references the first union of the array
+		* info_array[0].age = 1000; // sets age of first union to 1000
+
+Unions as Arguments to Functions
+
+	- when a union is passed as an argument to a function it is a call-by-value
+		* changes made to the formal parameters do not change the argument
+	- a pointer to a union may also be passed as an argument to a function
+		* changes made to the formal parameters also change the argument
+	- when using pointers to access union members, the arrow operator is used
+
+	//PASS BY VALUE
+	void set (ART_INFO a) {
+		a.age = 100;
+	}
+
+	int main () {
+		ART_INFO artist;
+		set(artist);
+		printf("%d", artist.age);	// artist union passed by value (copy of artist)
+	}
+
+	//PASS BY REFERENCE
+	void set (ART_INFO * a) {
+		a->age = 100;
+	}
+
+	int main () {
+		ART_INFO artist;
+		set(&artist);
+		printf("%d", artist.age);	// artist union passed by reference (pointer to artist)
+	}
+
+Unions as Return Values
+
+	- returned union values can be assigned to union variables of the same type
+
+	ART_INFO set_age (int age) {
+		ART_INFO artist;
+		artist.age = age;
+		return artist;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

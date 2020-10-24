@@ -7,48 +7,51 @@
 int main() {
 	
 	int n_apts = 5;
-	APT * apts = (APT *)malloc(n_apts * sizeof(APT));
-	int start = 0, back = 0, counter = 0; // variables to track the circular list
+	APT * apts = (APT *)malloc(n_apts * sizeof(APT)); // allocates memory for list
+	APT * p_apt = (APT *)malloc(sizeof(APT)); // points to where new apt will be placed in list
+	p_apt = apts;
+	int start = 0, counter = 0; // variables to track the circular list
 	bool is_quit = false;
 
 	while (is_quit == false) {
 
-		APT temp_apt;
-		DATE_TIME temp_date_time;
 		char command;
-		printf("Choose a command:\na - add an appointment\np - print list of appointments\nn - next appointment\nq - quit program\n");
+		printf("Choose a command:\na - add an appointment\np - print list of appointments\nn - next appointment\nq - quit program\n\n");
 
 		scanf("%c", &command);
 		switch (command) {
 			case 'a':
-				printf("Input data for an appointment: <name> <location> <duration>\n");
-				scanf("%s%*c%s%*c%d", temp_apt.name, temp_apt.loc, &temp_apt.dur);
-				printf("Input date and time for appointment: <day> <month> <year> <hour> <minute> <second>\n");
-				scanf("%d%*c%d%*c%d%*c%d%*c%d%*c%f", &temp_date_time.day, &temp_date_time.month, &temp_date_time.year, &temp_date_time.hour, &temp_date_time.minute, &temp_date_time.second);
+				printf("Input data for an appointment: <name> ");
+				fgets(p_apt->name, sizeof(p_apt->name), stdin);
+				printf("\nInput data for an appointment: <location> ");
+				fgets(p_apt->loc, sizeof(p_apt->loc), stdin);
+				printf("Input data for an appointment: <duration> ");
+				scanf(" %d", &p_apt->dur);
+				printf("Input date and time for appointment: <day> <month> <year> <hour> <minute> <second>\n\n");
+				scanf(" %d %d %d %d %d %f", &p_apt->date_time.day, &p_apt->date_time.month, &p_apt->date_time.year, &p_apt->date_time.hour, &p_apt->date_time.minute, &p_apt->date_time.second);
 				
-				if (apt_val(temp_apt) != 0 || date_val(temp_date_time) != 0) {
-					printf("Appointment data or date time data not accepted. Try again.\n");
+				if (apt_val(*p_apt) != 0 || date_val(p_apt->date_time) != 0) {
+					printf("Appointment data or date time data not accepted. Try again.\n\n");
 					break;
 				}
 
 				if (counter == n_apts - 1) {
 					n_apts *= n_apts;
-					realloc(apts, n_apts * sizeof(APT));
+					apts = realloc(apts, n_apts * sizeof(APT));
 				}
 
-				if (back < 1) {
-					*(apts + back) = add_apt(temp_apt.name, temp_apt.loc, temp_apt.dur, temp_date_time);
+				++p_apt;
+				++counter;
+				if (p_apt == apts) {
+					*(p_apt) = add_apt(p_apt->name, p_apt->loc, p_apt->dur, p_apt->date_time);
 				}
 				
-				if (compare_date_time((apts + back)->date_time, temp_date_time) == 0) {
-					*(apts + back + 1) = add_apt(temp_apt.name, temp_apt.loc, temp_apt.dur, temp_date_time);
+				if (compare_date_time((p_apt)->date_time, p_apt->date_time) == 0) {
+					*(p_apt + 1) = add_apt(p_apt->name, p_apt->loc, p_apt->dur, p_apt->date_time);
 				}
 
-				*(apts + back + 1) = *(apts + back);
-				*(apts + back) = add_apt(temp_apt.name, temp_apt.loc, temp_apt.dur, temp_date_time); 
-
-				++back;
-				++counter;
+				*(p_apt + 1) = *(p_apt);
+				*(p_apt) = add_apt(p_apt->name, p_apt->loc, p_apt->dur, p_apt->date_time); 
 				break;
 
 			case 'p':
@@ -64,7 +67,9 @@ int main() {
 				break;
 
 			case 'q':
-				free(apts);
+				for (int i = 0; i < n_apts; ++i) {
+					free(apts + i);
+				}
 				is_quit = true;
 				break;
 

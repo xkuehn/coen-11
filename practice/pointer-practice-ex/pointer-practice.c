@@ -75,25 +75,110 @@
 // 	printf("The sum of the first and second value is: %d\n", sum);
 // }
 
-void fun(char * p);
+//  COPY CONTENT OF ARRAY TO ANOTHER ARRAY
+// int main(){
 
-int main ( void)
-{
-    char * string[5] = "xyz";
-    fun (string);
-    return;
-}
+//     int size = 5;
 
-void fun (char *p)
-{
-    if (*p == '\0')
-        return;
-    else
-    {
-        printf ("%c", *p);
-        printf ("%c", *p);
-        fun (p + 1);
-        printf ("%c", *p);
-     }
-     return;
-}
+//     int arr[] = {0,1,2,3,4};
+//     int * parr = arr;
+//     int copy[size];
+//     int *pcopy = copy;
+
+//     for (int i = 0; i < size; ++i) {
+//         *(pcopy + i) = *(parr + i); 
+//     }
+
+//     for (int i = 0; i < size; ++i) {
+//         printf("%d\t", *(pcopy + i));
+//     }
+// }
+
+//  FIND LENGTH OF STRING
+// int main(){
+
+//     char str[] = "I love jennifer so much!";
+//     char * pstr = str;
+//     int i = 0, count = 0;
+
+//     while (*(pstr + i) != '\0') {
+
+//         ++count;
+//         ++i;
+
+//     }
+
+//     printf("Length of string: %d\n", count);
+// }
+
+//  COMPARE 2 STRINGS USING POINTERS
+// int compare(char * str1, char * str2);
+
+// int main () {
+
+//     char * str1 = "Hello";
+//     char * str2 = "Hello";
+//     int res;
+
+//     res = compare(str1, str2);
+
+//     if (res == 0) {
+//         printf("Both strings are equal.\n");
+//     }
+//     if (res > 0) {
+//         printf("String one is larger than string two by %d characters.\n", res - 1);
+//     }
+//     if (res < 0) {
+//         printf("String two is larger than string one by %d characters.\n", res*(-1) - 1);
+//     }
+// }
+
+// int compare (char * str1, char * str2) {
+
+//     while ((*str1 && *str2) && (*str1 == *str2)) {
+//         str1++;
+//         str2++;
+//     }
+
+//     return *str1 - *str2;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
