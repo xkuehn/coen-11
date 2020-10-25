@@ -19,7 +19,7 @@ typedef struct apt {
 	DATE_TIME date_time;
 } APT;
 
-APT add_apt(char*, char*, int, DATE_TIME);
+APT add_apt(char *, char *, int, DATE_TIME);
 
 int compare_date_time(DATE_TIME, DATE_TIME);
 

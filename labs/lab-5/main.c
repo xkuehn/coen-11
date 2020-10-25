@@ -8,8 +8,8 @@ int main() {
 	
 	int n_apts = 5;
 	APT * apts = (APT *)malloc(n_apts * sizeof(APT)); // allocates memory for list
-	APT * p_apt = (APT *)malloc(sizeof(APT)); // points to where new apt will be placed in list
-	p_apt = apts;
+	APT * p_apt;
+
 	int start = 0, counter = 0; // variables to track the circular list
 	bool is_quit = false;
 
@@ -22,7 +22,7 @@ int main() {
 		switch (command) {
 			case 'a':
 				printf("Input data for an appointment: <name> ");
-				fgets(p_apt->name, sizeof(p_apt->name), stdin);
+				fgets((p_apt->name), sizeof(p_apt->name), stdin);
 				printf("\nInput data for an appointment: <location> ");
 				fgets(p_apt->loc, sizeof(p_apt->loc), stdin);
 				printf("Input data for an appointment: <duration> ");
