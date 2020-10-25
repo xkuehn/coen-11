@@ -8,7 +8,17 @@ int main() {
 	
 	int n_apts = 5;
 	APT * apts = (APT *)malloc(n_apts * sizeof(APT)); // allocates memory for list
-	APT * p_apt;
+	APT * p_apt = (APT *)malloc(sizeof(APT));
+	p_apt = apts;
+	p_apt->name = (char *)malloc(sizeof(char *));
+	p_apt->loc = (char *)malloc(sizeof(char *));
+	p_apt->dur = (int)malloc(sizeof(int));
+	p_apt->date_time.day = (int)malloc(sizeof(int));
+	p_apt->date_time.month = (int)malloc(sizeof(int));
+	p_apt->date_time.year = (int)malloc(sizeof(int));
+	p_apt->date_time.minute = (int)malloc(sizeof(int));
+	p_apt->date_time.hour = (int)malloc(sizeof(int));
+	p_apt->date_time.second = (float)(int)malloc(sizeof(float));
 
 	int start = 0, counter = 0; // variables to track the circular list
 	bool is_quit = false;
@@ -18,12 +28,12 @@ int main() {
 		char command;
 		printf("Choose a command:\na - add an appointment\np - print list of appointments\nn - next appointment\nq - quit program\n\n");
 
-		scanf("%c", &command);
+		scanf("%c%*c", &command);
 		switch (command) {
 			case 'a':
 				printf("Input data for an appointment: <name> ");
-				fgets((p_apt->name), sizeof(p_apt->name), stdin);
-				printf("\nInput data for an appointment: <location> ");
+				fgets(p_apt->name, sizeof(p_apt->name), stdin);
+				printf("Input data for an appointment: <location> ");
 				fgets(p_apt->loc, sizeof(p_apt->loc), stdin);
 				printf("Input data for an appointment: <duration> ");
 				scanf(" %d", &p_apt->dur);
@@ -40,8 +50,6 @@ int main() {
 					apts = realloc(apts, n_apts * sizeof(APT));
 				}
 
-				++p_apt;
-				++counter;
 				if (p_apt == apts) {
 					*(p_apt) = add_apt(p_apt->name, p_apt->loc, p_apt->dur, p_apt->date_time);
 				}
@@ -52,6 +60,8 @@ int main() {
 
 				*(p_apt + 1) = *(p_apt);
 				*(p_apt) = add_apt(p_apt->name, p_apt->loc, p_apt->dur, p_apt->date_time); 
+				++p_apt;
+				++counter;
 				break;
 
 			case 'p':
