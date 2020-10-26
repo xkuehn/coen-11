@@ -44,8 +44,6 @@ int apt_val(APT apt) {
 
 	if (apt.dur <= 0) {err++;}
 
-	if (date_val(apt.date_time) != 0) {err++;}
-
 	return err;
 }
 

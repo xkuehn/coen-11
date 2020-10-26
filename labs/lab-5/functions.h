@@ -1,6 +1,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
-#define NAME_LENGTH 20
+#define NAME_LENGTH 30
 #define LOC_LENGTH 50
 
 typedef struct date_time {
