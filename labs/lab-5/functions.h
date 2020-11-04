@@ -13,21 +13,19 @@ typedef struct date_time {
 } DATE_TIME;
 
 typedef struct apt {
-	char * name;
-	char * loc;
+	char name[NAME_LENGTH];
+	char loc[LOC_LENGTH];
 	int dur;
 	DATE_TIME date_time;
 } APT;
 
-APT add_apt(char *, char *, int, DATE_TIME);
+APT add_apt(char[], char[], int, DATE_TIME);
 
 int compare_date_time(DATE_TIME, DATE_TIME);
 
-void print_apt(APT);
+void print_apt(APT *);
 
-int date_val(DATE_TIME);
-
-int apt_val(APT);
+int apt_val(APT *);
 
 void print_date_time(DATE_TIME);
 

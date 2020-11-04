@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include <math.h>
 
-APT add_apt(char * name, char * loc, int dur, DATE_TIME date_time) {
+APT add_apt(char name[NAME_LENGTH], char loc[LOC_LENGTH], int dur, DATE_TIME date_time) {
 
-	APT apt = {name, loc, dur, date_time};
+	APT apt = {*name, *loc, dur};
+	apt.date_time = date_time;
 	return apt;
 }
 
@@ -26,51 +27,46 @@ int compare_date_time(DATE_TIME date_time1, DATE_TIME date_time2){
 	return 1;
 }
 
-void print_apt(APT apt) {
+void print_apt(APT * apts) {
+	
+	printf("Meet Dr. %s", apts->name);
+	printf(" at %s for %d minutes starting at ", apts->loc, apts->dur);
+	print_date_time(apts->date_time);
+	printf(" until ");
+	print_date_time(add_duration(apts, apts->dur));
 
-	printf("Meet %s at %s for %d minutes starting at ", apt.name, apt.loc, apt.dur);
-	print_date_time(apt.date_time);
-	printf("until");
-	print_date_time(add_duration(&apt, apt.dur));
-	printf("\n");
 }
 
-int apt_val(APT apt) {
+int apt_val(APT * apt) {
 	
 	int err;
-	if (strlen(apt.name) <= 0) {err++;}
+	if (strlen(apt->name) <= 0) {err++;}
 
-	if (strlen(apt.loc) <= 0) {err++;}
+	if (strlen(apt->loc) <= 0) {err++;}
 
-	if (apt.dur <= 0) {err++;}
+	if (apt->dur <= 0) {err++;}
 
-	return err;
-}
+	if (apt->date_time.month < 1 || apt->date_time.month > 12) {err++;}
 
-int date_val(DATE_TIME date_time) {
-	
-	int err;
-	if (date_time.month < 1 || date_time.month > 12) {err++;}
+	if (apt->date_time.year < 2020) {err++;}
 
-	if (date_time.year < 2020) {err++;}
+	if (apt->date_time.day < 1) {err++;}
 
-	if (date_time.day < 1) {err++;}
+	if (apt->date_time.hour > 23 || apt->date_time.hour < 0) {err++;}
 
-	if (date_time.hour > 23 || date_time.hour < 0) {err++;}
+	if (apt->date_time.minute < 0 || apt->date_time.minute > 59) {err++;}
 
-	if (date_time.minute < 0 || date_time.minute > 59) {err++;}
+	if (apt->date_time.second < 0.0 || apt->date_time.second > 59.999999) {err++;}
 
-	if (date_time.second < 0.0 || date_time.second > 59.999999) {err++;}
-
-	switch (date_time.month) {
+	switch (apt->date_time.month) {
 		case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-			if (date_time.day > 31) {err++;}
+			if (apt->date_time.day > 31) {err++;}
 			break;
 		case 4: case 6: case 9: case 11:
-			if (date_time.day > 30) {err++;}
+			if (apt->date_time.day > 30) {err++;}
 			break;
 		case 2:
-			if (date_time.day > 28) {err++;}
+			if (apt->date_time.day > 28) {err++;}
 			break;
 		default:
 			break; 
@@ -78,6 +74,38 @@ int date_val(DATE_TIME date_time) {
 
 	return err;
 }
+
+// int date_val(DATE_TIME date_time) {
+	
+// 	int err;
+// 	if (date_time.month < 1 || date_time.month > 12) {err++;}
+
+// 	if (date_time.year < 2020) {err++;}
+
+// 	if (date_time.day < 1) {err++;}
+
+// 	if (date_time.hour > 23 || date_time.hour < 0) {err++;}
+
+// 	if (date_time.minute < 0 || date_time.minute > 59) {err++;}
+
+// 	if (date_time.second < 0.0 || date_time.second > 59.999999) {err++;}
+
+// 	switch (date_time.month) {
+// 		case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+// 			if (date_time.day > 31) {err++;}
+// 			break;
+// 		case 4: case 6: case 9: case 11:
+// 			if (date_time.day > 30) {err++;}
+// 			break;
+// 		case 2:
+// 			if (date_time.day > 28) {err++;}
+// 			break;
+// 		default:
+// 			break; 
+// 	}
+
+// 	return err;
+// }
 
 void print_date_time(DATE_TIME date_time) {
 
@@ -109,8 +137,7 @@ void print_date_time(DATE_TIME date_time) {
 		default: break;
 	}
 
-	printf("%c %d %d, %d:%d:%.1f %c", *month, date_time.day, date_time.year, hour, 
-		date_time.minute, date_time.second, *day_night);	
+	printf("%s %d %d at %d:%d:%.1f %s", month, date_time.day, date_time.year, hour, date_time.minute, date_time.second, day_night);	
 	
 	return;
 }
@@ -141,6 +168,7 @@ DATE_TIME add_duration(APT * apt, int dur) {
 		}
 		new_date_time.hour += floor(dur / 60);
 		new_date_time.minute = dur % 60;
+		return new_date_time;
 	}
 	new_date_time.minute += dur;
 
