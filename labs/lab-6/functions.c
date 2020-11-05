@@ -4,17 +4,19 @@
 #include <string.h>
 #include <math.h>
 
-void push (APT * head, APT * tail) {
+
+APT * push (APT * head) {
 	APT * apt;
 	if ((apt = (APT *)malloc(sizeof(APT))) == (APT *)NULL) {
-			printf("* ERROR: MEMORY COULD NOT BE ALLOCATED *\n");
-			return;
+			printf("* ERROR (push): MEMORY COULD NOT BE ALLOCATED *\n");
+			return head;
 	}
 
 	apt = (APT *)malloc(sizeof(APT));
+
 	DATE date;
-	char * name;
-	char * loc;
+	char name[NAME_LENGTH];
+	char loc[LOC_LENGTH];
 	int dur;
 	unsigned char day;
 	unsigned char month;
@@ -24,21 +26,17 @@ void push (APT * head, APT * tail) {
 	int year;
 
 	printf("\nPlease input a name (50 chars max): ");
-	fgets(name, 51, stdin);
+	fgets(name, NAME_LENGTH, stdin);
 	printf("\nPlease input a location (100 chars max): ");
-	fgets(loc, 101, stdin);
+	fgets(loc, LOC_LENGTH, stdin);
 	printf("\nPlease input a duration (in minutes): ");
 	scanf(" %d", &dur);
 	printf("\nPlease input a date <day> <month> <year> <hour> <minute> <second>: ");
-	scanf(" %hhu %hhu %d %hhu %hhu %f", &day, &month, &year, &hour, &minute, &second);
+	scanf("%hhu %hhu %d %hhu %hhu %f", &day, &month, &year, &hour, &minute, &second);
+	while (getchar() != '\n');
 
-	if (check(apt) != 0) {
-		printf("\n* ERROR: INPUT NOT ACCEPTED PLEASE TRY AGAIN *");
-		return;
-	}
-
-	apt->data.name = name;
-	apt->data.loc = loc;
+	strcpy(apt->data.name, name);
+	strcpy(apt->data.loc, loc);
 	apt->data.dur = dur;
 	apt->data.date.day = day; 
 	apt->data.date.month = month;
@@ -47,74 +45,110 @@ void push (APT * head, APT * tail) {
 	apt->data.date.minute = minute;
 	apt->data.date.second = second;
 
+	if (check(apt) > 0) {
+		printf("\n* ERROR (check): INPUT NOT ACCEPTED PLEASE TRY AGAIN *");
+		return head;
+	}
+
 	if (head == NULL) {
 		apt->next = head;
 		head = apt;
-		tail = apt;
-		return;
+		//tail = apt;
+		return head;
 	}
 
 	APT * temp = head;
-	while (temp->next) {
-		if (compare(temp->data.date, temp->next->data.date) > 0) {
-			temp = temp->next;
-		} else if (compare(temp->data.date, temp->next->data.date) <= 0){
+	if (temp->next == NULL) {
+		printf("1test\n");
+		if (compare(temp->data.date, apt->data.date) <= 0){
+			printf("2test\n");
 			apt->next = temp->next;
 			temp->next = apt;
+		} else {
+			printf("3test\n");
+			apt->next = NULL;
+			temp->next = apt;
+		}
+		return head;
+	}
+	while (temp->next) {
+		if (compare(temp->data.date, apt->data.date) > 0) {
+			temp = temp->next;
+		} else if (compare(temp->data.date, apt->data.date) <= 0){
+			apt->next = temp->next;
+			temp->next = apt;
+			break;
 		}
 	}
-	if (temp->next == NULL) {
-		tail = temp;
-	}
-	return;
+	// if (temp->next == NULL) {
+	// 	tail = temp;
+	// }
+	
+	return head;
 }
 
 void print (APT * apt) {
+	if (apt == NULL) {
+		printf("\n* ERROR (print): THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
+		return;
+	}
+
 	printf("\nMeet %s at %s for %d minutes starting at ", apt->data.name, apt->data.loc, apt->data.dur);
 	print_date(apt->data.date);
 	printf(" until ");
-	print_date(add_duration(apt, apt->data.dur));
+	print_date(add_duration(apt->data.date, apt->data.dur));
 	return;
 }
 
 int compare (DATE date1, DATE date2) {
-	if (date1.year == date2.year) { return 0; }
-	if (date1.month == date2.month) { return 0; }
-	if (date1.day == date2.day) { return 0; }
-	if (date1.minute == date2.minute) { return 0; }
-	if (date1.hour == date2.hour) { return 0; }
-	if (date1.second == date2.second) { return 0; }
+	if (date1.year == date2.year) { 
+		if (date1.month == date2.month) {
+			if (date1.day == date2.day) {
+				if (date1.minute == date2.minute) {
+					if (date1.hour == date2.hour) {
+						if (date1.second == date2.second) { return 0; }
+					}
+				}
+			}
+		}
+	}
 
-	if (date1.year < date2.year) { return -1; }
-	if (date1.month < date2.month) { return -1; }
-	if (date1.day < date2.day) { return -1; }
-	if (date1.minute < date2.minute) { return -1; }
-	if (date1.hour < date2.hour) { return -1; }
-	if (date1.second < date2.second) { return -1; }
-	return 1;
+	if (date1.year < date2.year) { 
+		if (date1.month < date2.month) {
+			if (date1.day < date2.day) {
+				if (date1.minute < date2.minute) {
+					if (date1.hour < date2.hour) {
+						if (date1.second < date2.second) { return 1; }
+					}
+				}
+			}
+		}
+	}
+	
+	return -1;
 }
 
 int check (APT * apt) {
-	int err;
-	if (strlen(apt->data.name) <= 0) {err++;}
-	if (strlen(apt->data.loc) <= 0) {err++;}
-	if (apt->data.dur <= 0) {err++;}
-	if (apt->data.date.month < 1 || apt->data.date.month > 12) {err++;}
-	if (apt->data.date.year < 2020) {err++;}
-	if (apt->data.date.day < 1) {err++;}
-	if (apt->data.date.hour > 23 || apt->data.date.hour < 0) {err++;}
-	if (apt->data.date.minute < 0 || apt->data.date.minute > 59) {err++;}
-	if (apt->data.date.second < 0.0 || apt->data.date.second > 59.999999) {err++;}
+	int err = 0;
+	if (strlen(apt->data.name) <= 0) { err++; }
+	if (strlen(apt->data.loc) <= 0) { err++; }
+	if (apt->data.dur <= 0) { err++; }
+	if (apt->data.date.month < 1 || apt->data.date.month > 12) { err++; }
+	if (apt->data.date.year < 2020) { err++; }
+	if (apt->data.date.day < 1) { err++; }
+	if (apt->data.date.hour > 23 || apt->data.date.hour < 0) { err++; }
+	if (apt->data.date.minute < 0 || apt->data.date.minute > 59) { err++; }
+	if (apt->data.date.second < 0.0 || apt->data.date.second > 59.999999) { err++; }
 
 	switch (apt->data.date.month) {
 		case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-			if (apt->data.date.day > 31) {err++;}
+			if (apt->data.date.day > 31) { err++; }
 			break;
 		case 4: case 6: case 9: case 11:
-			if (apt->data.date.day > 30) {err++;}
+			if (apt->data.date.day > 30) { err++; }
 			break;
 		case 2:
-			if (apt->data.date.day > 28) {err++;}
+			if (apt->data.date.day > 28) { err++; }
 			break;
 		default:
 			break; 
@@ -156,14 +190,13 @@ void print_date (DATE date) {
 	return;
 }
 
-DATE add_duration (APT * apt, int dur) {
+DATE add_duration (DATE date, int dur) {
 	if (dur < 1 || dur > 40320) {
-		printf("\n* ERROR: DURATION NOT ACCEPTED *");
-		return apt->data.date;
+		printf("\n* ERROR (add_duration): DURATION NOT ACCEPTED *");
+		return date;
 	}
 
-	DATE new_date = apt->data.date;
-	apt->data.dur += dur;
+	DATE new_date = date;
 
 	if (dur < 60) {
 		if (new_date.minute < (60 - dur)) { new_date.minute += dur; }
@@ -263,25 +296,29 @@ DATE add_duration (APT * apt, int dur) {
 	return new_date;
 }
 
-void next (APT * head) {
+APT * next (APT * head) {
 	if (head == NULL) {
-		printf("\n* ERROR: THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
-		return;
+		printf("\n* ERROR (next): THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
+		return head;
 	}
 
-	free(head);
+	printf("Next appointment is: ");
+	APT * temp = head;
 	head = head->next;
+	free(temp);
+	return head;
 }
 
-void delete_date (APT * head, APT * tail) {
+APT * delete_date (APT * head) {
 	if (head == NULL) {
-		printf("\n* ERROR: THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
-		return;
+		printf("\n* ERROR (delete_date): THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
+		return head;
 	}
 
 	DATE date;
 	printf("\nPlease input a date <day> <month> <year> <hour> <minute> <second>: ");
 	scanf(" %hhu %hhu %d %hhu %hhu %f", &date.day, &date.month, &date.year, &date.hour, &date.minute, &date.second);
+	while (getchar() != '\n');
 
 	APT * temp = head;
 	APT * prev;
@@ -292,40 +329,37 @@ void delete_date (APT * head, APT * tail) {
 
 	if (temp->next == NULL) {
 		prev->next = NULL;
-		tail = prev;
+		// tail = prev;
 	}
 
 	prev->next = temp->next;
 	free(temp);
-	return;
+	return head;
 }
 
-void find (APT * head, APT * tail) {
+void find (APT * head) {
 	if (head == NULL) {
-		printf("\n* ERROR: THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
+		printf("\n* ERROR (find): THE LIST IS EMPTY // ADD AN APPOINTMENT TO CALL THIS FUNCTION *");
 		return;
 	}
 
 	DATE date;
 	printf("\nPlease input a date <day> <month> <year> <hour> <minute> <second>: ");
 	scanf(" %hhu %hhu %d %hhu %hhu %f", &date.day, &date.month, &date.year, &date.hour, &date.minute, &date.second);
+	while (getchar() != '\n');
 
 	APT * temp = head;
-	int i;
-	while (compare(temp->data.date, date) != 0 && temp->next) {
+	while (temp) {
+		if (compare(temp->data.date, date) == 0) {
+			print(temp);
+			return;
+		}
 		temp = temp->next;
-		++i;
 	}
 
 	if (compare(temp->data.date, date) != 0) {
-		printf("\n* ERROR: THE TARGET DATE WAS NOT FOUND IN THE LIST OF APPOINTMENTS *");
+		printf("\n* ERROR (find): THE TARGET DATE WAS NOT FOUND IN THE LIST OF APPOINTMENTS *");
 		return;
 	}
-
-	char * suffix;
-	if (i == 1) { suffix = "st"; }
-	if (i == 2) { suffix = "nd"; }
-	if (i > 2) { suffix = "th"; }
-	printf("\nThe appointment scheduled at the target date is %d%s in the list.", i, suffix);
 	return;
 }
