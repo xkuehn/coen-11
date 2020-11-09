@@ -67,3 +67,7 @@
 		4.  check the sizes of two matrices being multiplied to endure they have the appropriate dimensions
 
 			int check_matrix_size(matrix1, matrix2);
+
+		5. test add num functions
+			- did it add at correct pos with correct val
+			- did the size increase
