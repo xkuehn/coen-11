@@ -11,7 +11,9 @@ APT * push (APT * head) {
 			printf("* ERROR (push): MEMORY COULD NOT BE ALLOCATED *\n");
 			return head;
 	}
-	
+
+	apt = (APT *)malloc(sizeof(APT));
+
 	DATE date;
 	char name[NAME_LENGTH];
 	char loc[LOC_LENGTH];
